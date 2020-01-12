@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 
 
-class Load(object):
+class Load():
     """
     Load class is used for exclusive dataframe filtering
     which takes `df` a csv file and convert into dataframe
@@ -47,7 +47,14 @@ class Load(object):
 
         """
         # complete code here
-
+        
+        nums = []
+        for i in self.data.split(","):
+            try:
+                nums.append(float(i))
+            except ValueError:
+                pass
+        return(nums)
 
     def sum_all_numbers(self):
         """
@@ -66,8 +73,7 @@ class Load(object):
 
 
         """
-        # complete code here
-
+        return sum(list1)
 
     def extract_vowels(self):
         """
@@ -81,6 +87,10 @@ class Load(object):
             >> df.extract_vowels()
             >> ['A', 'E', 'I', 'O']
         """
+        self="W_A11,2000-02,Moving average,59.66666667,50.92582302,68.40751031,Injuries,Number,Assault,Validated,Whole pop,All ages,FatalW_A11,2001-03,Moving average,60,10,20,30,33,31,12,51.23477459,68.76522541,Injuries,Number,Assault,Validated,Whole pop,All ages,Fatale 50, 50, 60,pop,All ages,Fatal"
+        vowel="aeiouAEIOU"
+        a=([letter for letter in self if letter in vowel])
+        return(a)
 
 
     def pick_odd_numbers(self):
@@ -97,9 +107,10 @@ class Load(object):
             >> [1, 3, 5]
 
         """
-        # complete code here
-
-
+        list3 = df.pick_numbers()
+        list3=[round(i) for i in list3]
+        li=[i for i in list3 if i%2!=0]
+        return li
     def get_mean(self):
         """
         Take the string from `self.data` and extract all numbers and return
@@ -113,7 +124,9 @@ class Load(object):
             >> df.get_mean()
             >> 50
         """
-        # complete code here
+        listed = df.pick_numbers()
+        mean = sum(listed)/len(listed)
+        return mean
 
 
     def get_all_categorical(self):
@@ -131,7 +144,9 @@ class Load(object):
             >> ['Series_reference', 'Type']
         """
         # complete code here
-
+        cols = self.df.columns
+        num_cols = self.df._get_numeric_data().columns
+        return list(set(cols) - set(num_cols))
 
 
     def get_all_continuous(self):
@@ -148,10 +163,8 @@ class Load(object):
             >> df.get_all_continuous()
             >> ['Lower_CI', 'Upper_CI', 'Units']
         """
-        # complete code here
-
-
-
+        num_cols = self.df._get_numeric_data().columns
+        return list(num_cols)
     def addition(self, x, y):
         """
         Take X and Y as input and now return the sum of both
@@ -168,9 +181,19 @@ class Load(object):
             >> 30
         """
         # complete code here
-
+        return x+y
 
 
 if __name__ == '__main__':
     # instantiate the object
     df = Load('data.csv')
+    print(df.addition(10,20))
+    numb=df.pick_numbers
+    print(df.pick_numbers())
+    list1=sum(df.pick_numbers())
+    print(list1)
+    print(df.extract_vowels())
+    print(df.get_all_categorical())
+    print(df.get_all_continuous())
+    print(df.pick_odd_numbers())
+    print(df.get_mean())
